@@ -48,7 +48,7 @@ RUN CFLAGS="-fPIC" && OPENSSL_VERSION="1.0.2d" \
       && rm -rf /tmp/*
 
 ENV PHP_INI_DIR /etc/php5/apache2
-ENV PHP_VERSION 5.3.29
+ENV PHP_VERSION 5.4.45
 RUN mkdir -p $PHP_INI_DIR/conf.d
 
 # php 5.3 needs older autoconf
@@ -74,12 +74,12 @@ RUN buildDeps=" \
       " \
       && set -x \
       && apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
-      && echo "8438c2f14ab8f3d6cd2495aa37de7b559e33b610f9ab264f0c61b531bf0c262d php.tar.xz" > php.tar.xz.sha \
-      && curl -SL "http://php.net/get/php-$PHP_VERSION.tar.xz/from/this/mirror" -o php.tar.xz \
-      && sha256sum -c php.tar.xz.sha \
+      && echo "25bc4723955f4e352935258002af14a14a9810b491a19400d76fcdfa9d04b28f php.tar.gz" > php.tar.gz.sha \
+      && curl -SL "http://php.net/get/php-$PHP_VERSION.tar.gz/from/this/mirror" -o php.tar.gz \
+      && sha256sum -c php.tar.gz.sha \
       && mkdir -p /usr/src/php \
-      && tar -xof php.tar.xz -C /usr/src/php --strip-components=1 \
-      && rm php.tar.xz* \
+      && tar -xof php.tar.gz -C /usr/src/php --strip-components=1 \
+      && rm php.tar.gz* \
       && cd /usr/src/php \
       && ./configure --disable-cgi \
       $(command -v apxs2 > /dev/null 2>&1 && echo '--with-apxs2=/usr/bin/apxs2' || true) \
@@ -109,7 +109,7 @@ RUN buildDeps=" \
 
 RUN echo "default_charset = UTF-8" > $PHP_INI_DIR/php.ini \
       && echo "date.timezone = Europe/Paris" >> $PHP_INI_DIR/php.ini \
-      && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20090626/xdebug.so" >> $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini \
+      && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20100525/xdebug.so" >> $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini \
       && echo "xdebug.remote_enable=1" >> $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini \
       && echo "xdebug.remote_port=9000" >> $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini \
       && echo "xdebug.remote_connect_back=1" >> $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini
