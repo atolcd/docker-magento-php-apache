@@ -48,7 +48,7 @@ RUN CFLAGS="-fPIC" && OPENSSL_VERSION="1.0.2d" \
       && rm -rf /tmp/*
 
 ENV PHP_INI_DIR /etc/php5/apache2
-ENV PHP_VERSION 5.4.45
+ENV PHP_VERSION 5.5.9
 RUN mkdir -p $PHP_INI_DIR/conf.d
 
 # php 5.3 needs older autoconf
@@ -74,7 +74,7 @@ RUN buildDeps=" \
       " \
       && set -x \
       && apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
-      && echo "25bc4723955f4e352935258002af14a14a9810b491a19400d76fcdfa9d04b28f php.tar.gz" > php.tar.gz.sha \
+      && echo "ec1bf0cb3be80240049dbd92c272d4bf242a614fa5f9dcc42a15adb5fd01ccde php.tar.gz" > php.tar.gz.sha \
       && curl -SL "http://php.net/get/php-$PHP_VERSION.tar.gz/from/this/mirror" -o php.tar.gz \
       && sha256sum -c php.tar.gz.sha \
       && mkdir -p /usr/src/php \
